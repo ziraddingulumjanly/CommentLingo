@@ -1,0 +1,29 @@
+name: Package YT Comments Auto Translate
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create extension ZIP
+        run: |
+          mkdir -p dist
+          zip -r dist/yt-comments-auto-translate.zip . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "dist/*" \
+            -x "*.zip"
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yt-comments-auto-translate
+          path: dist/yt-comments-auto-translate.zip
